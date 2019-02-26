@@ -205,11 +205,10 @@ void TcpConnection::shutdown()
 void TcpConnection::shutdownInLoop()
 {
   loop_->assertInLoopThread();
-  if (!channel_->isWriting())
+  while (channel_->isWriting())
   {
-    // we are not writing
-    socket_->shutdownWrite();
   }
+  socket_->shutdownWrite();
 }
 
 // void TcpConnection::shutdownAndForceCloseAfter(double seconds)
